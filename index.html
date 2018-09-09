@@ -1,12 +1,14 @@
 <!DOCTYPE html><html lang="es"><head><title>Authorization</title><meta charset="utf-8" /><script>
 
-	const spotifyAuthorization = {
+	let spotifyAuthorization = {
 		endpoint: 'https://accounts.spotify.com/authorize?',
-		parameters: {
-			client_id: 'dd2c1e54cc73415b99812e190b5afaa4',
-			redirect_uri: 'https://trl-test.netlify.com/genius'
-		},
-		get uri() { let uri = this.endpoint; for(let item in this.parameters) uri += `${item}&${this.parameters[item]}`; return uri; }
+		parameters: [
+			['client_id', 'dd2c1e54cc73415b99812e190b5afaa4'],
+			['redirect_uri', 'https://trl-test.netlify.com/genius']
+		],
+		get uri() {
+			return this.endpoint + this.parameters.map(p => p.join('=')).join('&');
+		}
 	};
 
 	if(window.hash === undefined) {
