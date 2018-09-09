@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="es"><head><title>Authorization</title><meta charset="utf-8" /><script>
 
-	let spotifyAuthorization = {
+	const spotifyAuthorization = {
 		endpoint: 'https://accounts.spotify.com/authorize?',
 		parameters: {
 			client_id: 'dd2c1e54cc73415b99812e190b5afaa4',
@@ -11,7 +11,7 @@
 
 	if(window.hash === undefined) {
 
-		window.location.replace(spotifyAuthorization.url);
+		window.location.replace(spotifyAuthorization.uri);
 
 	}
 
