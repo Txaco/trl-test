@@ -1,5 +1,8 @@
 <!DOCTYPE html><html lang="es"><head><title>TRL test</title><meta charset="utf-8" /><script>
 
-	window.location.replace('https://accounts.spotify.com/authorize?response_type=token&client_id=dd2c1e54cc73415b99812e190b5afaa4&&redirect_uri=https://trl-test.netlify.com/spotify');
+	if(!localStorage['spotifyToken'] || !localStorage['geniusToken']) {
+	   window.location.replace('https://accounts.spotify.com/authorize?response_type=token&client_id=dd2c1e54cc73415b99812e190b5afaa4&&redirect_uri=https://trl-test.netlify.com/spotify');
+	}
+	else alert('Authorization process ok!');
 
 </script></head><body></body></html>
