@@ -1,5 +1,11 @@
 <!DOCTYPE html><html lang="es"><head><title>Genius API Authorization</title><meta charset="utf-8" /><script>
 
+	window.localStorage['geniusToken'] = window.location.hash.substring(1).split('&').reduce( (obj, param) => {
+		let pair = param.split('=');
+		obj[pair[0]] = pair[1];
+		return obj;
+	}, {}).access_token;
 	
+	window.location.replace = 'https://trl-test.netlify.com';
 
 </script></head><body></body></html>
