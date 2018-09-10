@@ -1,37 +1,5 @@
 <!DOCTYPE html><html lang="es"><head><title>Authorization</title><meta charset="utf-8" /><script>
 
-	let spotifyAuthorization = {
-		request_endpoint: 'https://accounts.spotify.com/authorize?',
-		request_parameters: [
-			['client_id', 'dd2c1e54cc73415b99812e190b5afaa4'],
-			['response_type', 'token'],
-			['redirect_uri', 'https://trl-test.netlify.com/spotify']
-		],
-		response_parameters: [
-			['access_token', null],
-			['token:type', 'Bearer'],
-			['expires_in', '3600']
-		],
-		get request_uri() {
-			return this.request_endpoint + this.request_parameters.map(p => p.join('=')).join('&');
-		},
-		getAccessToken(loc) {
-
-			console.log(loc);
-
-		}
-	};
-
-	if(!window.location.hash) {
-
-		window.location.replace(spotifyAuthorization.request_uri);
-
-	}
-
-	else {
-
-		spotifyAuthorization.getAccessToken(window.location);
-
-	}
+	window.location.replace('https://accounts.spotify.com/authorize?response_type=token&client_id=dd2c1e54cc73415b99812e190b5afaa4&&redirect_uri=https://trl-test.netlify.com/spotify');
 
 </script></head><body></body></html>
