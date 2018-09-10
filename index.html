@@ -1,8 +1,50 @@
-<!DOCTYPE html><html lang="es"><head><title>TRL test</title><meta charset="utf-8" /><script>
+<!DOCTYPE html><html lang="es"><head><title>Authorization</title><meta charset="utf-8" /><script>
 
-	if(!localStorage['spotifyToken'] || !localStorage['geniusToken']) {
-	   window.location.replace('https://accounts.spotify.com/authorize?response_type=token&client_id=dd2c1e54cc73415b99812e190b5afaa4&&redirect_uri=https://trl-test.netlify.com/spotify');
+	let appHash = window.location.hash.substring(1);
+
+	// If no hash
+	if(!appHash) {
+
+		// Redirect to Spotify Request Token
+		window.location.replace('https://accounts.spotify.com/authorize?state=spotify&response_type=token&client_id=dd2c1e54cc73415b99812e190b5afaa4&redirect_uri=https://trl-test.netlify.com');
+	
 	}
-	else alert('Authorization process ok!');
+	
+	
+	// If hash (redirect from Spotify or Genius)
+	else {
+
+		// Get hash object
+		let hashObject =  appHash.split('&').reduce( (obj, param) => {
+			let pair = param.split('=');
+			obj[pair[0]] = pair[1];
+			return obj;
+		}, {});
+
+		// If hash comes from Spotify
+		if(hashObject.state === 'spotify') {
+
+			window.localStorage.setItem('spotifyToken', hashObject.access_token);
+
+			window.location.replace('https://api.genius.com/oauth/authorize?state=genius&response_type=token&client_id=EoYU0ulLTO-FktnbcJkBWXp5OaZqCJ8QAdGa1wcIfhjKPAnGosk2GhxBTEDFhOXZ&redirect_uri=https://trl-test.netlify.com');
+
+		}
+
+		// Else if hash comes from Genius
+		else if(hashObject.state === 'genius') {
+
+			window.localStorage.setItem('geniusToken', hashObject.access_token);
+
+			window.location.replace('https://trl-test.netlify.com/app');
+
+		}
+
+		else {
+
+			alert('Unknown Hash!');
+
+		}
+
+	}
 
 </script></head><body></body></html>
