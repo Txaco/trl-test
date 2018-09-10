@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="es"><head><title>Spotify API Authorization</title><meta charset="utf-8" /><script>
 	
-	window.localStorage.spotifyToken = window.location.hash.substring(1).split('&').reduce( (obj, param) => {
+	window.localStorage['spotifyToken'] = window.location.hash.substring(1).split('&').reduce( (obj, param) => {
 		let pair = param.split('=');
 		obj[pair[0]] = pair[1];
 		return obj;
