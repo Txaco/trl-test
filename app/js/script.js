@@ -364,4 +364,4 @@ let THE_ROCK_LIST = ( () => {
 })();
 
 // Initialize THE ROCK LIST
-document.addEventListener('DOMContentLoaded', THE_ROCK_LIST.initialize);
+// document.addEventListener('DOMContentLoaded', THE_ROCK_LIST.initialize);
