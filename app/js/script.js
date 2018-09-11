@@ -22,7 +22,10 @@ let THE_ROCK_LIST = ( () => {
 		},
 
 		// Genius API data
-		geniusAPI: {},
+		geniusAPI: {
+			searchURI: 'https://api.genius.com/search?per_page=10&page=1&q=',
+			options: 		{ headers: { 'Authorization': `Bearer ${window.localStorage.getItem('geniusToken')}` } }
+		},
 
 		// Fallback image URI
 		fallbackImageURI: 'https://dummyimage.com/128x128/cccccc/000000&text=♪'
@@ -39,8 +42,8 @@ let THE_ROCK_LIST = ( () => {
 	// Temp variables
 	const TEMP = {
 
-		lastSearch: 		null, 						// EVENT_LISTENERS.searchSubmit(event) adds this value
-		pickedResult: 		{ id: null, title: null } 	// EVENT_LISTENERS.pickResult(event) adds pickedResult.id and pickedResult.title
+		lastSearch: 	null, 																		// EVENT_LISTENERS.searchSubmit(event) adds this value
+		pickedResult: { id: null, title: null, artist: null } 	// EVENT_LISTENERS.pickResult(event) adds adds these values
 
 	};
 
@@ -109,6 +112,7 @@ let THE_ROCK_LIST = ( () => {
 					
 					TEMP.pickedResult.id 	= target.dataset.id;
 					TEMP.pickedResult.title = target.querySelector('h4.spotify-result-info.pos-mid').textContent;
+					TEMP.pickedResult.artist = target.querySelector('h5.spotify-result-info.pos-top').textContent;
 					
 					break;
 					
@@ -122,7 +126,7 @@ let THE_ROCK_LIST = ( () => {
 
 		dropResult(event) {
 
-			if(TEMP.pickedResult.id && TEMP.pickedResult.title) {
+			if(TEMP.pickedResult.id && TEMP.pickedResult.title && TEMP.pickedResult.artist) {
 			
 				let target = event.target;
 				
@@ -131,12 +135,17 @@ let THE_ROCK_LIST = ( () => {
 					if(target.id === 'user-list') {
 					
 						let droppedResult = document.createElement('li');
-						droppedResult.setAttribute('data-id', TEMP.pickedResult.id);
+						
+						droppedResult.setAttribute('data-id'		, TEMP.pickedResult.id);
+						droppedResult.setAttribute('data-title'	, TEMP.pickedResult.title);
+						droppedResult.setAttribute('data-artist', TEMP.pickedResult.artist);
 						droppedResult.textContent = TEMP.pickedResult.title;
+						
 						target.appendChild(droppedResult);
 						
-						TEMP.pickedResult.id 	= null;
-						TEMP.pickedResult.title = null;
+						TEMP.pickedResult.id 			= null;
+						TEMP.pickedResult.title 	= null;
+						TEMP.pickedResult.artist 	= null;
 						
 						break;
 					
@@ -156,8 +165,8 @@ let THE_ROCK_LIST = ( () => {
 	
 			if(target.parentElement.id === 'user-list') {
 			
-				let uri 	= DATA.spotifyAPI.getTrackURI + target.dataset.id,
-					options = DATA.spotifyAPI.options;
+				let uri 		= DATA.geniusAPI.searchURI + `${target.dataset.title} ${target.dataset.artist}`,
+						options = DATA.geniusAPI.options;
 				
 				HELPERS.fetchURI(uri, options).then(result => console.log(result)).catch(error => alert(error));
 			
