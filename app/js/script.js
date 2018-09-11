@@ -222,7 +222,7 @@ let THE_ROCK_LIST = ( () => {
 					trackData.album 		= track.album.name;
 
 					// Add track to list - set <li> item data-spotify attribute to JSON trackData string
-					list += `<li class="spotify-result" data-spotify="${JSON.stringify(trackData)}">
+					list += `<li class="spotify-result" data-spotify='${JSON.stringify(trackData)}'>
 											<img src="${trackData.imageURI}" alt="Music Note" />
 											<div>
 												<h5 class="spotify-result-info pos-top">${trackData.artists.join(' | ')}</h5>
@@ -267,7 +267,7 @@ let THE_ROCK_LIST = ( () => {
 					artistData.genres 		= artist.genres.length ? artist.genres : ['Ninguno'];
 
 					// Add artist to list - set <li> item data-spotify attribute to JSON artistData string
-					list += `<li class="spotify-result" data-spotify="${JSON.stringify(artistData)}">
+					list += `<li class="spotify-result" data-spotify='${JSON.stringify(artistData)}'>
 											<img src="${artistData.imageURI}" alt="Artist Image" />
 											<div>
 												<h5 class="spotify-result-info pos-top">Popularidad: ${artistData.popularity}%</h5>
@@ -313,7 +313,7 @@ let THE_ROCK_LIST = ( () => {
 					albumData.releaseDate = album.release_date;
 
 					// Add album to list - set <li> item data-spotify attribute to JSON albumData string
-					list += `<li class="spotify-result" data-spotify="${JSON.stringify(albumData)}">
+					list += `<li class="spotify-result" data-spotify='${JSON.stringify(albumData)}'>
 											<img src="${albumData.imageURI}" alt="Album Image" />
 											<div>
 												<h5 class="spotify-result-info pos-top">${albumData.artists.join(' | ')}</h5>
