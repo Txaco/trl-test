@@ -231,7 +231,7 @@ let THE_ROCK_LIST = ( () => {
 													<span>${trackData.album}</span>
 												</h6>
 											</div>
-									</li>`;
+									</li>`;console.log(trackData);
 
 				}
 
