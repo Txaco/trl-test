@@ -179,14 +179,11 @@ let THE_ROCK_LIST = ( () => {
 				let userTrackData = JSON.parse(target.dataset.spotify);
 			
 				// Get Genius search URI
-				// let uri = DATA.geniusAPI.searchURI + `${userTrackData.title} ${userTrackData.artists.join(' ')}`;
+				let geniusSearchURI = `${DATA.geniusAPI.searchURI}${userTrackData.title} ${userTrackData.artists.join(' ')}`;
 				// let options = DATA.geniusAPI.options; // Genius API data options (not working, CORS error)
 				
-				// Log search response
-				// HELPERS.fetchURI(uri).then(response => console.log(response)).catch(error => alert(error));
-					
-				// Log FULL TRACK OBJECT
-				HELPERS.fetchURI(userTrackData.href, DATA.spotifyAPI.options).then(response => console.log(response)).catch(error => alert(error));
+				// Search Genius and log response
+				HELPERS.fetchURI(uri).then(response => console.log(response)).catch(error => alert(error));
 			
 			}
 
