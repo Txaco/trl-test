@@ -21,10 +21,17 @@ let THE_ROCK_LIST = ( () => {
 			options: 		{ headers: { Authorization: `Bearer ${window.localStorage.getItem('spotifyToken')}` } }
 		},
 
-		// Genius API data
+		/*
+		// Genius API data (not working, CORS error)
 		geniusAPI: {
 			searchURI: 'https://api.genius.com/search?per_page=10&page=1&q=',
 			options: 		{ headers: { Authorization: `Bearer ${window.localStorage.getItem('geniusToken')}` } }
+		},
+		*/
+		
+		// Genius API data (token as get parameter, ono options, checking)
+		geniusAPI: {
+			searchURI: `https://api.genius.com/search?per_page=10&page=1&access_token=${window.localStorage.getItem('geniusToken')}&q=`
 		},
 
 		// Fallback image URI
@@ -165,10 +172,10 @@ let THE_ROCK_LIST = ( () => {
 	
 			if(target.parentElement.id === 'user-list') {
 			
-				let uri 		= DATA.geniusAPI.searchURI + `${target.dataset.title} ${target.dataset.artist}`,
-						options = DATA.geniusAPI.options;
+				let uri 		= DATA.geniusAPI.searchURI + `${target.dataset.title} ${target.dataset.artist}`;
+				// let options = DATA.geniusAPI.options;
 				
-				HELPERS.fetchURI(uri, options).then(result => console.log(result)).catch(error => alert(error));
+				HELPERS.fetchURI(uri).then(result => console.log(result)).catch(error => alert(error));
 			
 			}
 
