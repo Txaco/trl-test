@@ -35,7 +35,7 @@ let THE_ROCK_LIST = ( () => {
 				`https://api.genius.com/search
 					?text_format=plain
 					&sort=popularity
-					&per_page=1
+					&per_page=50
 					&page=1
 					&access_token=${window.localStorage.getItem('geniusToken')}
 					&q=`
