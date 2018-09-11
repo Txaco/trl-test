@@ -31,7 +31,13 @@ let THE_ROCK_LIST = ( () => {
 		
 		// Genius API data (token as get parameter, ono options, checking)
 		geniusAPI: {
-			searchURI: `https://api.genius.com/search?per_page=10&page=1&access_token=${window.localStorage.getItem('geniusToken')}&q=`
+			searchURI: 
+				`https://api.genius.com/search
+					?
+					per_page=1
+					&page=1
+					&access_token=${window.localStorage.getItem('geniusToken')}
+					&q=`
 		},
 
 		// Fallback image URI
