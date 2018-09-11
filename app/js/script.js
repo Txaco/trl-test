@@ -188,8 +188,8 @@ let THE_ROCK_LIST = ( () => {
 																		
 				});
 					
-					//
-					HELPERS.fetchURI(userTrackData.href, DATA.spotifyAPI.options).then(response => {
+				//
+				HELPERS.fetchURI(userTrackData.href, DATA.spotifyAPI.options).then(response => {
 					
 					console.log(response)).catch(error => alert(error);
 																		
