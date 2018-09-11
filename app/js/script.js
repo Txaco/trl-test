@@ -183,7 +183,22 @@ let THE_ROCK_LIST = ( () => {
 				// let options = DATA.geniusAPI.options; // Genius API data options (not working, CORS error)
 				
 				// Search Genius and log response
-				HELPERS.fetchURI(geniusSearchURI).then(response => console.log(response)).catch(error => alert(error));
+				HELPERS.fetchURI(geniusSearchURI).then(genius => {
+					
+					let results = genius.response.hits.map(hit => hit.result);
+				
+					let filtered = results.filter(item => {
+					
+						let artistMatch = userTrackData.artists.join(' ').includes(item.primary_artist.name);
+						let titleMatch = userTrackData.title.includes(item.title);
+						
+						return artistMatch && titleMatch;
+					
+					});
+					
+					console.log(filtered);
+				
+				}).catch(error => alert(error));
 			
 			}
 
