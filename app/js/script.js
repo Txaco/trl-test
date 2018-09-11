@@ -23,7 +23,7 @@ let THE_ROCK_LIST = ( () => {
 
 		/*// Genius API data (not working - CORS error)
 		geniusAPI: {
-			searchURI: 'https://api.genius.com/search?per_page=10&page=1&q=',
+			searchURI: 'https://api.genius.com/search?q=',
 			options: 		{ headers: { Authorization: `Bearer ${window.localStorage.getItem('geniusToken')}` } }
 		},*/
 		
@@ -183,7 +183,7 @@ let THE_ROCK_LIST = ( () => {
 				// let options = DATA.geniusAPI.options; // Genius API data options (not working, CORS error)
 				
 				// Search Genius and log response
-				HELPERS.fetchURI(uri).then(response => console.log(response)).catch(error => alert(error));
+				HELPERS.fetchURI(geniusSearchURI).then(response => console.log(response)).catch(error => alert(error));
 			
 			}
 
