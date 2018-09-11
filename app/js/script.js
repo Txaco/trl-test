@@ -147,10 +147,11 @@ let THE_ROCK_LIST = ( () => {
 					
 					if(target.id === 'user-list') {
 					
-						let droppedResult = document.createElement('li');
+						let droppedResult = document.createElement('li'),
+								pickedResultData = JSON.parse(TEMP.pickedResultJSONData);
 						
 						droppedResult.setAttribute('data-spotify', TEMP.pickedResultJSONData);
-						droppedResult.textContent = TEMP.pickedResultJSONData.title;
+						droppedResult.textContent = pickedResultData.title;
 						
 						target.appendChild(droppedResult);
 						
@@ -178,13 +179,13 @@ let THE_ROCK_LIST = ( () => {
 				let userTrackData = JSON.parse(target.dataset.spotify);
 			
 				// Get Genius search URI
-				let uri = DATA.geniusAPI.searchURI + `${userTrackData.title} ${userTrackData.artists.join(' ')}`;
+				// let uri = DATA.geniusAPI.searchURI + `${userTrackData.title} ${userTrackData.artists.join(' ')}`;
 				// let options = DATA.geniusAPI.options; // Genius API data options (not working, CORS error)
 				
 				// Log search response
-				HELPERS.fetchURI(uri).then(response => console.log(response)).catch(error => alert(error));
+				// HELPERS.fetchURI(uri).then(response => console.log(response)).catch(error => alert(error));
 					
-				//
+				// Log FULL TRACK OBJECT
 				HELPERS.fetchURI(userTrackData.href, DATA.spotifyAPI.options).then(response => console.log(response)).catch(error => alert(error));
 			
 			}
@@ -231,7 +232,7 @@ let THE_ROCK_LIST = ( () => {
 													<span>${trackData.album}</span>
 												</h6>
 											</div>
-									</li>`;console.log(JSON.stringify(trackData));
+									</li>`;
 
 				}
 
