@@ -33,8 +33,9 @@ let THE_ROCK_LIST = ( () => {
 		geniusAPI: {
 			searchURI: 
 				`https://api.genius.com/search
-					?
-					per_page=1
+					?text_format=plain
+					&sort=popularity
+					&per_page=1
 					&page=1
 					&access_token=${window.localStorage.getItem('geniusToken')}
 					&q=`
