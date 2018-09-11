@@ -18,13 +18,13 @@ let THE_ROCK_LIST = ( () => {
 		spotifyAPI: {
 			searchURI: 		'https://api.spotify.com/v1/search?limit=12',
 			getTrackURI: 	'https://api.spotify.com/v1/tracks/',
-			options: 		{ headers: { 'Authorization': `Bearer ${window.localStorage.getItem('spotifyToken')}` } }
+			options: 		{ headers: { Authorization: `Bearer ${window.localStorage.getItem('spotifyToken')}` } }
 		},
 
 		// Genius API data
 		geniusAPI: {
 			searchURI: 'https://api.genius.com/search?per_page=10&page=1&q=',
-			options: 		{ mode: 'no-cors',  headers: { 'authorization': `Bearer ${window.localStorage.getItem('geniusToken')}` } }
+			options: 		{ headers: { Authorization: `Bearer ${window.localStorage.getItem('geniusToken')}` } }
 		},
 
 		// Fallback image URI
@@ -338,7 +338,7 @@ let THE_ROCK_LIST = ( () => {
 			
 			// Log session Tokens (to check if any problems)
 			console.log(window.localStorage.getItem('spotifyToken'));
-			console.log(window.localStorage.getItem('spotifyToken'));
+			console.log(window.localStorage.getItem('geniusToken'));
 
 			// Remove localStorage Tokens
 			window.localStorage.removeItem('spotifyToken');
