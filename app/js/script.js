@@ -21,15 +21,13 @@ let THE_ROCK_LIST = ( () => {
 			options: 		{ headers: { Authorization: `Bearer ${window.localStorage.getItem('spotifyToken')}` } }
 		},
 
-		/*
-		// Genius API data (not working, CORS error)
+		/*// Genius API data (not working - CORS error)
 		geniusAPI: {
 			searchURI: 'https://api.genius.com/search?per_page=10&page=1&q=',
 			options: 		{ headers: { Authorization: `Bearer ${window.localStorage.getItem('geniusToken')}` } }
-		},
-		*/
+		},*/
 		
-		// Genius API data (token as get parameter, ono options, checking)
+		// Genius API data (working - token as get parameter, no fetch options)
 		geniusAPI: {
 			searchURI: 
 				`https://api.genius.com/search
@@ -56,8 +54,8 @@ let THE_ROCK_LIST = ( () => {
 	// Temp variables
 	const TEMP = {
 
-		lastSearch: 	null, 																		// EVENT_LISTENERS.searchSubmit(event) adds this value
-		pickedResult: { id: null, title: null, artist: null } 	// EVENT_LISTENERS.pickResult(event) adds adds these values
+		lastSearch: 					null, // EVENT_LISTENERS.searchSubmit(event) adds this value
+		pickedResultJSONData: null 	// EVENT_LISTENERS.pickResult(event) adds these values
 
 	};
 
@@ -126,9 +124,7 @@ let THE_ROCK_LIST = ( () => {
 				
 				if(target.className === 'spotify-result' && target.parentElement.id === 'spotify-track-results-list') {
 					
-					TEMP.pickedResult.id 	= target.dataset.id;
-					TEMP.pickedResult.title = target.querySelector('h4.spotify-result-info.pos-mid').textContent;
-					TEMP.pickedResult.artist = target.querySelector('h5.spotify-result-info.pos-top').textContent;
+					TEMP.pickedResultJSONData = target.dataset.spotify;
 					
 					break;
 					
@@ -143,7 +139,7 @@ let THE_ROCK_LIST = ( () => {
 		// Track result drop (mouseup event)
 		dropResult(event) {
 
-			if(TEMP.pickedResult.id && TEMP.pickedResult.title && TEMP.pickedResult.artist) {
+			if(TEMP.pickedResultJSONData) {
 			
 				let target = event.target;
 				
@@ -153,16 +149,12 @@ let THE_ROCK_LIST = ( () => {
 					
 						let droppedResult = document.createElement('li');
 						
-						droppedResult.setAttribute('data-id'		, TEMP.pickedResult.id);
-						droppedResult.setAttribute('data-title'	, TEMP.pickedResult.title);
-						droppedResult.setAttribute('data-artist', TEMP.pickedResult.artist);
-						droppedResult.textContent = TEMP.pickedResult.title;
+						droppedResult.setAttribute('data-spotify', TEMP.pickedResultJSONData);
+						droppedResult.textContent = TEMP.pickedResultJSONData.title;
 						
 						target.appendChild(droppedResult);
 						
-						TEMP.pickedResult.id 			= null;
-						TEMP.pickedResult.title 	= null;
-						TEMP.pickedResult.artist 	= null;
+						TEMP.pickedResultJSONData = null;
 						
 						break;
 					
@@ -182,9 +174,11 @@ let THE_ROCK_LIST = ( () => {
 			let target = event.target;
 	
 			if(target.parentElement.id === 'user-list') {
+				
+				let userTrackData = JSON.parse(target.dataset.spotify);
 			
 				// Get Genius search URI
-				let uri = DATA.geniusAPI.searchURI + `${target.dataset.title} ${target.dataset.artist}`;
+				let uri = DATA.geniusAPI.searchURI + `${userTrackData.title} ${userTrackData.artists.join(' ')}`;
 				// let options = DATA.geniusAPI.options; // Genius API data options (not working, CORS error)
 				
 				// Log search response
@@ -193,13 +187,9 @@ let THE_ROCK_LIST = ( () => {
 					console.log(response)).catch(error => alert(error);
 																		
 				});
-			
-				// Get Genius search URI
-				let uri = DATA.geniusAPI.searchURI + `${target.dataset.title} ${target.dataset.artist}`;
-				// let options = DATA.geniusAPI.options; // Genius API data options (not working, CORS error)
-				
-				// Log Spotify 
-				HELPERS.fetchURI(uri).then(response => {
+					
+					//
+					HELPERS.fetchURI(userTrackData.href, DATA.spotifyAPI.options).then(response => {
 					
 					console.log(response)).catch(error => alert(error);
 																		
@@ -235,9 +225,9 @@ let THE_ROCK_LIST = ( () => {
 					// Get track data
 					trackData.href 			= track.href;
 					trackData.artists 	= track.artists.map(artist => artist.name);
-					trackData.title = track.name;
+					trackData.title 		= track.name;
 					trackData.albumType = track.album.album_type === 'compilation' ? 'recopilatorio'	: track.album.album_type;
-					trackData.album = track.album.name;
+					trackData.album 		= track.album.name;
 
 					// Add track to list - set <li> item data-spotify attribute to JSON trackData string
 					list += `<li class="spotify-result" data-spotify="${JSON.stringify(trackData)}">
@@ -278,11 +268,11 @@ let THE_ROCK_LIST = ( () => {
 				for(let artist of results.artists.items) {
 					
 					// Get artist data
-					artistData.href = artist.href;
-					artistData.imageURI = artist.images.length ? artist.images[0].url : DATA.fallbackImageURI; // Get biggest image
+					artistData.href 			= artist.href;
+					artistData.imageURI 	= artist.images.length ? artist.images[0].url : DATA.fallbackImageURI; // Get biggest image
 					artistData.popularity = artist.popularity;
-					artistData.name = artist.name;
-					artistData.genres = artist.genres.length ? artist.genres : ['Ninguno'];
+					artistData.name 			= artist.name;
+					artistData.genres 		= artist.genres.length ? artist.genres : ['Ninguno'];
 
 					// Add artist to list - set <li> item data-spotify attribute to JSON artistData string
 					list += `<li class="spotify-result" data-spotify="${JSON.stringify(artistData)}">
@@ -323,11 +313,11 @@ let THE_ROCK_LIST = ( () => {
 				for(let album of results.albums.items) {
 					
 					// Get album data
-					albumData.href = album.href;
-					albumData.imageURI = album.images.length ? album.images[0].url : DATA.fallbackImageURI; // Get biggest image
-					albumData.artists = album.artists.map(artist => artist.name);
-					albumData.title = album.name;
-					albumData.type = album.album_type === 'compilation' ? 'recopilatorio' : album.album_type;
+					albumData.href 				= album.href;
+					albumData.imageURI 		= album.images.length ? album.images[0].url : DATA.fallbackImageURI; // Get biggest image
+					albumData.artists 		= album.artists.map(artist => artist.name);
+					albumData.title 			= album.name;
+					albumData.type 				= album.album_type === 'compilation' ? 'recopilatorio' : album.album_type;
 					albumData.releaseDate = album.release_date;
 
 					// Add album to list - set <li> item data-spotify attribute to JSON albumData string
@@ -366,14 +356,14 @@ let THE_ROCK_LIST = ( () => {
 
 			// Get DOM references
 			DOM.trackResultsList 	= document.getElementById('spotify-track-results-list');
-			DOM.artistResultsList 	= document.getElementById('spotify-artist-results-list');
+			DOM.artistResultsList = document.getElementById('spotify-artist-results-list');
 			DOM.albumResultsList 	= document.getElementById('spotify-album-results-list');
 
 			// Set DOM events
 			document.forms['spotify-search'].addEventListener('submit'		, EVENTS.searchSubmit);
-			document						.addEventListener('mousedown'	, EVENTS.pickResult);
-			document						.addEventListener('mouseup'		, EVENTS.dropResult);
-			document						.addEventListener('click'		, EVENTS.clickUserTrack);
+			document												.addEventListener('mousedown'	, EVENTS.pickResult);
+			document												.addEventListener('mouseup'		, EVENTS.dropResult);
+			document												.addEventListener('click'			, EVENTS.clickUserTrack);
 
 			document.body.style.display = 'grid'; // Show APP !!!
 
