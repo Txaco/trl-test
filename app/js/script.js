@@ -24,7 +24,7 @@ let THE_ROCK_LIST = ( () => {
 		// Genius API data
 		geniusAPI: {
 			searchURI: 'https://api.genius.com/search?per_page=10&page=1&q=',
-			options: 		{ headers: { 'authorization': `Bearer ${window.localStorage.getItem('geniusToken')}` } }
+			options: 		{ mode: 'cors',  headers: { 'authorization': `Bearer ${window.localStorage.getItem('geniusToken')}` } }
 		},
 
 		// Fallback image URI
