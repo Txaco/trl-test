@@ -182,18 +182,10 @@ let THE_ROCK_LIST = ( () => {
 				// let options = DATA.geniusAPI.options; // Genius API data options (not working, CORS error)
 				
 				// Log search response
-				HELPERS.fetchURI(uri).then(response => {
-					
-					console.log(response)).catch(error => alert(error);
-																		
-				});
+				HELPERS.fetchURI(uri).then(response => console.log(response)).catch(error => alert(error));
 					
 				//
-				HELPERS.fetchURI(userTrackData.href, DATA.spotifyAPI.options).then(response => {
-					
-					console.log(response)).catch(error => alert(error);
-																		
-				});
+				HELPERS.fetchURI(userTrackData.href, DATA.spotifyAPI.options).then(response => console.log(response)).catch(error => alert(error));
 			
 			}
 
