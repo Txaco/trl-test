@@ -335,6 +335,10 @@ let THE_ROCK_LIST = ( () => {
 	return {
 
 		initialize() {
+			
+			// Log session Tokens (to check if any problems)
+			console.log(window.localStorage.getItem('spotifyToken'));
+			console.log(window.localStorage.getItem('spotifyToken'));
 
 			// Remove localStorage Tokens
 			window.localStorage.removeItem('spotifyToken');
