@@ -182,15 +182,16 @@ let THE_ROCK_LIST = ( () => {
 				let geniusSearchURI = `${DATA.geniusAPI.searchURI}${userTrackData.title} ${userTrackData.artists.join(' ')}`;
 				// let options = DATA.geniusAPI.options; // Genius API data options (not working, CORS error)
 				
-				// Search Genius and log response
+				// Search Genius
 				HELPERS.fetchURI(geniusSearchURI).then(genius => {
 					
-					let results = genius.response.hits.map(hit => hit.result);
+					let results = genius.response.hits.map(hit => hit.result); // Get results
 				
+					// Filter results (remove wrong artists or titles)
 					let filtered = results.filter(item => {
 					
-						let artistMatch = userTrackData.artists.join(' ').includes(item.primary_artist.name);
-						let titleMatch = userTrackData.title.includes(item.title);
+						let artistMatch = userTrackData.artists.join(' ').match(new RegExp(item.primary_artist.name, 'gi')),
+								titleMatch = userTrackData.title.match(new RegExp(item.title, 'gi'));
 						
 						return artistMatch && titleMatch;
 					
